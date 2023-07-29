@@ -1,0 +1,87 @@
+.user-homepage {
+  /* Add your existing styles for the user homepage container */
+
+  /* Additional styles for event box layout */
+
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 20px;
+}
+.upper{
+  padding: 20px;
+  margin: 0px;
+}
+
+.event-card {
+  flex: 0 0 auto;
+  width: 250px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 28px;
+  margin-left: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+  
+  .event-image {
+    /* Styles for event image */
+    width: 100%;
+    height: 200px; /* Adjust the desired height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 4px;
+  }
+  
+  .event-details {
+    /* Styles for event details */
+    margin-top: 10px;
+  }
+  
+  .event-title {
+    /* Styles for event title */
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .event-date {
+    /* Styles for event date */
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .favorite-button {
+    /* Styles for favorite button */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .favorite-button.favorite {
+    color: red;
+  }
+
+  .all-events{
+    display: flex;
+  }
+
+  .favorite-events{
+    display: flex;
+  }
+
+  .favorite-organizers-events{
+    display: flex;
+  }
+
+  h2{
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 16px;
+  }
+  /* Additional styles as needed */
+  

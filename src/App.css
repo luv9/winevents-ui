@@ -24,9 +24,9 @@
   color: white;
 }
 
-/* .App-link {
+.App-link {
   color: #61dafb;
-} */
+}
 
 @keyframes App-logo-spin {
   from {
@@ -35,4 +35,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+@font-face {
+  font-family: 'Universidad'; /* This is the name you'll use to reference the font */
+  src: url('https://www.fontspace.com/universidad-font-f65282'); /* Replace with the direct link to the font */
+  /* Add other font properties here if needed, such as font-weight and font-style */
 }

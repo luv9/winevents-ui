@@ -1,5 +1,9 @@
-
-
+@font-face {
+  font-family: 'Universidad';
+  src: url('../fonts/uni.woff2') format('woff2'), /* Path to WOFF2 font file */
+       url('../fonts/uni.woff') format('woff'); /* Path to WOFF font file */
+  /* Add other font properties here if needed, such as font-weight and font-style */
+}
 
 .admin-page {
     margin: 0 auto;
@@ -10,6 +14,7 @@
   .search-box {
     display: flex;
     align-items: center;
+    width: 70%;
   }
   
   .form-control {
@@ -30,8 +35,10 @@
   }
   
   .search-box input[type='text'] {
-    flex: 1;
     margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 30%;
     height: 50px; /* Adjust the height as needed */
     font-size: 16px;
     border-right: none;
@@ -202,21 +209,20 @@
   }
   
   .logo {
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
+    font-family: 'Universidad', sans-serif;
+    font-size: 40px;
     display: flex;
     align-items: center;
+    color: #f6b162
   }
   
 
     .event-heading {
-        font-family: 'Roboto', sans-serif;
         font-size: 24px;
         color: #333;
         text-align: left; /* Align text to the left */
         margin-top: 20px;
         margin-bottom: 20px;
-        text-transform: uppercase;
       }
   
  
@@ -243,6 +249,8 @@
      /* Maintain aspect ratio */
   }
 
+
+  
 
   
   

@@ -45,6 +45,7 @@ const AdminPage = () => {
     setEvents([...events, newEventWithId]);
     setShowAddEventForm(false);
   };
+
   const handleUpdateEvent = (updatedEvent) => {
     const updatedEvents = events.map((event) =>
       event.id === eventToUpdate.id ? { ...event, ...updatedEvent } : event
@@ -139,7 +140,9 @@ const AdminPage = () => {
                   <p className="card-text">Date: {event.date}</p>
                   <div className="d-flex justify-content-center align-items-center mt-4">
                     <button
-                      className="btn btn-light rounded-circle toggle-visibility-button"
+                      className={`btn btn-light rounded-circle toggle-visibility-button ${
+                        event.visible ? 'visible' : 'hidden'
+                      }`}
                       onClick={() => handleToggleVisibility(event.id)}
                     >
                       {event.visible ? (

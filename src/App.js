@@ -5,7 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/login.component';
 import SignUp from './components/signup.component';
 import AdminHomepage from './components/adminhomepage';
-
+import UserLogin from './components/UserLogin';
+import UserSignUp from './components/UserSignUp';
+import UserHomepage from './components/UserHomePage';
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
           <Route path="/sign-in" element={<LoginWrapper />} />
           <Route path="/sign-up" element={<SignUpWrapper />} />
           <Route path="/adminhomepage" element={<AdminHomepage />} />
+          <Route path="/user-signin" element={<UserLoginWrapper />} />
+          <Route path="/user-signup" element={<UserSignUpWrapper />} />
+          <Route path="/user-homepage" element={<UserHomepage />} />
         </Routes>
       </div>
     </Router>
@@ -39,6 +44,28 @@ function SignUpWrapper() {
     <div className="auth-wrapper">
       <div className="auth-inner">
         <SignUp />
+      </div>
+    </div>
+  );
+}
+
+// Wrapper component for UserLogin
+function UserLoginWrapper() {
+  return (
+    <div className="auth-wrapper">
+      <div className="auth-inner">
+        <UserLogin />
+      </div>
+    </div>
+  );
+}
+
+// Wrapper component for UserSignUp
+function UserSignUpWrapper() {
+  return (
+    <div className="auth-wrapper">
+      <div className="auth-inner">
+        <UserSignUp />
       </div>
     </div>
   );
