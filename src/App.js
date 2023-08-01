@@ -21,6 +21,7 @@ function App() {
           <Route path="/user-signin" element={<UserLoginWrapper />} />
           <Route path="/user-signup" element={<UserSignUpWrapper />} />
           <Route path="/user-homepage" element={<UserHomepage />} />
+          <Route path="/user-signin" element={<UserLogin />} />
         </Routes>
       </div>
     </Router>

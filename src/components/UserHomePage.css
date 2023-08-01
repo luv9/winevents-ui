@@ -70,18 +70,229 @@
     display: flex;
   }
 
-  .favorite-events{
-    display: flex;
-  }
-
   .favorite-organizers-events{
     display: flex;
   }
 
   h2{
     text-align: left;
-    margin-top: 5px;
+    margin-top: 15px;
     margin-left: 16px;
+    font-family: 'Universidad', sans-serif;
   }
+
+  .event-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .button_style {
+    background-color: transparent; /* No background */
+    border: none;
+    color: #4CAF50; /* Green color for the arrow */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Adjust the size of the arrow as needed */
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+.button-style:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.no-events-message {
+  color: #888;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
   /* Additional styles as needed */
+
+  .event-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.event-popup h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.event-popup img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.event-popup p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.event-popup a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.event-popup button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+  img{
+    height: 250px;
+  }
+
+  /* .organizers-to-follow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  } */
+  
+  .organizer-card {
+    flex: 0 0 calc(33.3333% - 10px);
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .organizer-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .follow-button {
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* .follow-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .follow-button.followed {
+    background-color: #007bff;
+  }
+  
+  .follow-button.followed:hover {
+    /* background-color: #007bff; } */
+
+  .organizers-to-follow {
+    gap: 10px;
+    margin-top: 20px;
+    display: flex;
+  }
+  
+  .organizer-card {
+    flex: 0 0 auto;
+    width: 150px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .organizer-card h3 {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 15px;
+  }
+  
+  .follow-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    color: #007bff; /* Blue color for 'Follow' */
+  }
+  
+  .follow-button.followed {
+    /* color: #28a745; Green color for 'Following' */
+    border-color: #0056b3;
+  }
+  
+  .organizer-cards-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .organizer-image {
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
+    border-radius: 50%;
+    object-fit: cover; /* this will crop the image to fit the circle */
+  }
+
+  .menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .menu-item {
+    display: block;
+    padding: 5px 10px;
+    text-align: left;
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .menu-item:hover {
+    background-color: #eee;
+  }
+  
+  
+
+  
+
+  
   

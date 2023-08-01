@@ -108,7 +108,7 @@ const AdminPage = () => {
   return (
     <div className="admin-page">
       <div className="header">
-        <div className="logo">WinEvents</div>
+        <div className="logo">Win.Events</div>
         <div className="search-box">
           <input
             type="text"

@@ -5,7 +5,12 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
   const [newEvent, setNewEvent] = useState({
     title: '',
     date: '',
-    image: ''
+    image: '',
+    url: '',
+    description: '',
+    location: '',
+    time: '',
+    type: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -16,7 +21,12 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
       setNewEvent({
         title: '',
         date: '',
-        image: ''
+        image: '',
+        url: '',
+        description: '',
+        location: '',
+        time: '',
+        type: ''
       });
     }
   }, [eventToUpdate]);
@@ -44,7 +54,7 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (newEvent.title.trim() === '' || newEvent.date.trim() === '' || !newEvent.image) {
+    if (newEvent.title.trim() === '' || newEvent.date.trim() === '' || !newEvent.image || newEvent.url.trim() === '' || newEvent.description.trim() === '' || newEvent.location.trim() === '' || newEvent.time.trim() === '' || newEvent.type.trim() === '') {
       setErrorMessage('Please enter all the event details.');
       return;
     }
@@ -58,7 +68,12 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
     setNewEvent({
       title: '',
       date: '',
-      image: ''
+      image: '',
+      url: '',
+      description: '',
+      location: '',
+      time: '',
+      type: ''
     });
     setErrorMessage('');
     onClose();
@@ -90,6 +105,65 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
               value={newEvent.date}
               onChange={handleInputChange}
               placeholder="Enter event date"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="url">Event URL:</label>
+            <input
+              type="url"
+              id="url"
+              name="url"
+              value={newEvent.url}
+              onChange={handleInputChange}
+              placeholder="Enter event URL"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Event Description:</label>
+            <textarea
+              id="description"
+              name="description"
+              value={newEvent.description}
+              onChange={handleInputChange}
+              placeholder="Enter event description"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Event Location:</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={newEvent.location}
+              onChange={handleInputChange}
+              placeholder="Enter event location"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="time">Event Time:</label>
+            <input
+              type="time"
+              id="time"
+              name="time"
+              value={newEvent.time}
+              onChange={handleInputChange}
+              placeholder="Enter event time"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="type">Event Type:</label>
+            <input
+              type="text"
+              id="type"
+              name="type"
+              value={newEvent.type}
+              onChange={handleInputChange}
+              placeholder="Enter event type"
               required
             />
           </div>
