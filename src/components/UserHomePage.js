@@ -18,15 +18,14 @@ const UserHomepage = () => {
   const [organizersStartIndex, setOrganizersStartIndex] = useState(0);
   const [isOrganizersBackArrowDisabled, setIsOrganizersBackArrowDisabled] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [savedStartIndex, setSavedStartIndex] = useState(0);
   
   
   let navigate = useNavigate();
 
-  // const handleNextPage = () => {
-  //   setStartIndex(prevStartIndex => (prevStartIndex + eventsPerPage) % allEvents.length);
-  //   setIsBackArrowDisabled(false); // Enable the back arrow button after going to the next page
-  // };
+  const handleNextPage = () => {
+    setStartIndex(prevStartIndex => (prevStartIndex + eventsPerPage) % allEvents.length);
+    setIsBackArrowDisabled(false); // Enable the back arrow button after going to the next page
+  };
 
   const handlePrevPage = () => {
     setStartIndex(prevStartIndex =>
@@ -89,12 +88,21 @@ const UserHomepage = () => {
   useEffect(() => {
     // Fetch favorite events
     fetch('https://api.example.com/favorite-events')
-      .then(response => response.json())
-      .then(data => setFavoriteEvents(data))
-      .catch(error => console.log(error));
-
-    // Fetch events from favorite organizers
-    fetch('https://api.example.com/favorite-organizers-events')
+    .then(response => response.json())
+    .then(data => {
+      setFavoriteEvents(data);
+      // Filter the events marked as favorite from allEvents and update the state
+      const favoriteEventIds = data.map(event => event.id);
+      const updatedAllEvents = allEvents.map(event => ({
+        ...event,
+        favorite: favoriteEventIds.includes(event.id)
+      }));
+      setAllEvents(updatedAllEvents);
+    })
+    .catch(error => console.log(error));
+  
+  // Fetch events from favorite organizers
+  fetch('https://api.example.com/favorite-organizers-events')
     .then(response => response.json())
     .then(data => setOrganizers(data))
     .catch(error => console.log(error));
@@ -243,28 +251,17 @@ const UserHomepage = () => {
   const handleToggleFavorite = (event, eventId) => {
     event.stopPropagation();
   
-    setAllEvents(prevEvents => {
-      const updatedEvents = prevEvents.map((event) => {
-        if (event.id === eventId) {
-          return { ...event, favorite: !event.favorite };
-        } else {
-          return event;
-        }
-      });
+    // Find the event with the given eventId in the allEvents state.
+    console.log(allEvents)
+    const updatedEvents = allEvents.map((event) =>
+      event.id === eventId
+        ? { ...event, favorite: !event.favorite } // Toggle the 'favorite' property of the event
+        : event // If this is not the event we're interested in, return it as-is
+    );
   
-      // Determine which events are favorites
-      const updatedFavoriteEvents = updatedEvents.filter(event => event.favorite);
-      
-      // Update the favoriteEvents state with the new list of favorite events
-      setFavoriteEvents(updatedFavoriteEvents);
-  
-      // Return the updated events list to update the allEvents state
-      return updatedEvents;
-    });
+    // Update the allEvents state with the updatedEvents array.
+    setAllEvents(updatedEvents);
   };
-  
-  
-  
   
 
   return (
@@ -300,78 +297,77 @@ const UserHomepage = () => {
       </div>
       </div>
       <h2>All Events</h2>
-    <div className="all-events">
-      {allEvents.length > eventsPerPage && (
-        <div className="event-navigation">
-          <div className="event-cards-container">
-          <button className='button_style' onClick={handlePrevPage} disabled={isBackArrowDisabled}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-            {allEvents
-              .slice(startIndex, startIndex + eventsPerPage)
-              .map((event) => (
-                <div key={event.id} className="event-card" onClick={() => handleEventClick(event)}>
-  <img src={event.image} alt={event.title} className="event-image" />
-  <div className="event-details">
-    <h3>{event.title}</h3>
-    <p>Date: {event.date}</p>
-    <button
-  className={`favorite-button ${
-    favoriteEvents.some((favEvent) => favEvent.id === event.id)
-      ? 'favorite'
-      : ''
-  }`}
-  onClick={(e) => handleToggleFavorite(e, event.id)}
->
-  <FontAwesomeIcon icon={faHeart} />
-</button>
-
-  </div>
-</div>
-
-              ))}
-          <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev - eventsPerPage + favoriteEvents.length) % favoriteEvents.length)} disabled={savedStartIndex === 0}>
-  <FontAwesomeIcon icon={faChevronLeft} />
-</button>
-          </div>
-        </div>
-      )}
-    </div>
-    <h2>Saved Events</h2>
-<div className="favorite-events">
-  {favoriteEvents.length > 0 ? (
+<div className="all-events">
+  {allEvents.length > eventsPerPage && (
     <div className="event-navigation">
       <div className="event-cards-container">
-        <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev - eventsPerPage + favoriteEvents.length) % favoriteEvents.length)} disabled={savedStartIndex === 0}>
+        <button className='button_style' onClick={handlePrevPage} disabled={isBackArrowDisabled}>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        {favoriteEvents
-          .slice(savedStartIndex, savedStartIndex + eventsPerPage)
+        {allEvents
+          .slice(startIndex, startIndex + eventsPerPage)
           .map((event) => (
-            <div key={event.id} className="event-card">
+            <div key={event.id} className="event-card" onClick={() => handleEventClick(event)}>
               <img src={event.image} alt={event.title} className="event-image" />
               <div className="event-details">
                 <h3>{event.title}</h3>
                 <p>Date: {event.date}</p>
                 <button
-                  className={`favorite-button favorite`}
-                  onClick={(e) => handleToggleFavorite(e, event.id)}
-                >
-                  <FontAwesomeIcon icon={faHeart} />
-                </button>
+  className={`favorite-button ${
+    event.favorite ? 'favorite' : ''
+  }`}
+  onClick={(e) => {
+    e.stopPropagation();
+    handleToggleFavorite(e, event.id);
+  }}
+>
+  <FontAwesomeIcon icon={faHeart} />
+</button>
               </div>
             </div>
           ))}
-        <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev + eventsPerPage) % favoriteEvents.length)} disabled={savedStartIndex + eventsPerPage >= favoriteEvents.length}>
+        <button className='button_style' onClick={handleNextPage} disabled={startIndex + eventsPerPage >= allEvents.length}>
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
     </div>
-  ) : (
-    <p className="no-events-message">No saved events!!</p>
   )}
 </div>
 
+    <h2>Saved Events</h2>
+    <div className="favorite-events">
+        {favoriteEvents.length > 0 ? (
+          <div className="event-navigation">
+            <div className="event-cards-container">
+              {favoriteEvents
+                .slice(startIndex, startIndex + eventsPerPage)
+                .map((event) => (
+                  <div key={event.id} className="event-card">
+                    <img src={event.image} alt={event.title} className="event-image" />
+                    <div className="event-details">
+                      <h3>{event.title}</h3>
+                      <p>Date: {event.date}</p>
+                      <button
+                        className={`favorite-button favorite`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleFavorite(e, event.id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faHeart} />
+                      </button>
+                </div>
+              </div>
+            ))}
+            <button className='button_style' onClick={handleNextPage} disabled={startIndex + eventsPerPage >= favoriteEvents.length}>
+            <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+        </div>
+      </div>
+      ) : (
+        <p className="no-events-message">No saved events!!</p>
+      )}
+    </div>
     <h2>Organizers to Follow</h2>
 <div className="organizers-to-follow">
   {organizers.length > 0 && (
