@@ -8,12 +8,29 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform any necessary login/authentication logic here
 
-    // Redirect to the admin page
-    navigate('/adminhomepage');
+    // Call the login API
+    const response = await fetch('http://localhost:9000/organiser/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // If login is successful, store the token and navigate to the admin page
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('id', data.id);
+      navigate('/adminhomepage');
+    } else {
+      // If login fails, log the error message
+      console.error(data.message);
+    }
   };
 
   return (

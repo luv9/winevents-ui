@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './AddEvent.css';
 
-const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose }) => {
+const AddEvent = ({ eventToUpdate, onClose, onSubmit }) => {
   const [newEvent, setNewEvent] = useState({
-    title: '',
-    date: '',
-    image: '',
-    url: '',
-    description: '',
-    location: '',
-    time: '',
-    type: ''
+    Title: '',
+    Time: '',
+    Photo: '',
+    Url: '',
+    Description: '',
+    Location: '',
+    Type: '',
+    Organiser: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -18,15 +18,16 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
     if (eventToUpdate) {
       setNewEvent(eventToUpdate);
     } else {
+      const id = localStorage.getItem('id'); // retrieve id from local storage
       setNewEvent({
-        title: '',
-        date: '',
-        image: '',
-        url: '',
-        description: '',
-        location: '',
-        time: '',
-        type: ''
+        Title: '',
+        Time: '',
+        Photo: '',
+        Url: '',
+        Description: '',
+        Location: '',
+        Type: '',
+        Organiser: id
       });
     }
   }, [eventToUpdate]);
@@ -35,7 +36,7 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
     const { name, value } = event.target;
     setNewEvent((prevEvent) => ({
       ...prevEvent,
-      [name]: value
+      [name.charAt(0).toUpperCase() + name.slice(1)]: value
     }));
   };
 
@@ -45,7 +46,7 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
     reader.onload = () => {
       setNewEvent((prevEvent) => ({
         ...prevEvent,
-        image: reader.result
+        Photo: reader.result
       }));
     };
     reader.readAsDataURL(file);
@@ -54,29 +55,12 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (newEvent.title.trim() === '' || newEvent.date.trim() === '' || !newEvent.image || newEvent.url.trim() === '' || newEvent.description.trim() === '' || newEvent.location.trim() === '' || newEvent.time.trim() === '' || newEvent.type.trim() === '') {
+    if (newEvent.Title.trim() === '' || newEvent.Time.trim() === '' || !newEvent.Photo || newEvent.Url.trim() === '' || newEvent.Description.trim() === '' || newEvent.Location.trim() === '' || newEvent.Type.trim() === '') {
       setErrorMessage('Please enter all the event details.');
       return;
     }
 
-    if (eventToUpdate) {
-      handleUpdateEvent(newEvent);
-    } else {
-      handleAddEvent(newEvent);
-    }
-
-    setNewEvent({
-      title: '',
-      date: '',
-      image: '',
-      url: '',
-      description: '',
-      location: '',
-      time: '',
-      type: ''
-    });
-    setErrorMessage('');
-    onClose();
+    onSubmit(newEvent);
   };
 
   return (
@@ -90,21 +74,21 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
               type="text"
               id="title"
               name="title"
-              value={newEvent.title}
+              value={newEvent.Title}
               onChange={handleInputChange}
               placeholder="Enter event title"
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="date">Event Date:</label>
+            <label htmlFor="time">Event DateTime:</label>
             <input
-              type="date"
-              id="date"
-              name="date"
-              value={newEvent.date}
+              type="datetime-local"
+              id="time"
+              name="time"
+              value={newEvent.Time}
               onChange={handleInputChange}
-              placeholder="Enter event date"
+              placeholder="Enter event date and time"
               required
             />
           </div>
@@ -114,7 +98,7 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
               type="url"
               id="url"
               name="url"
-              value={newEvent.url}
+              value={newEvent.Url}
               onChange={handleInputChange}
               placeholder="Enter event URL"
               required
@@ -125,7 +109,7 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
             <textarea
               id="description"
               name="description"
-              value={newEvent.description}
+              value={newEvent.Description}
               onChange={handleInputChange}
               placeholder="Enter event description"
               required
@@ -137,21 +121,9 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
               type="text"
               id="location"
               name="location"
-              value={newEvent.location}
+              value={newEvent.Location}
               onChange={handleInputChange}
               placeholder="Enter event location"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="time">Event Time:</label>
-            <input
-              type="time"
-              id="time"
-              name="time"
-              value={newEvent.time}
-              onChange={handleInputChange}
-              placeholder="Enter event time"
               required
             />
           </div>
@@ -161,22 +133,25 @@ const AddEvent = ({ handleAddEvent, handleUpdateEvent, eventToUpdate, onClose })
               type="text"
               id="type"
               name="type"
-              value={newEvent.type}
+              value={newEvent.Type}
               onChange={handleInputChange}
               placeholder="Enter event type"
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="image">Event Image:</label>
+            <label htmlFor="photo">Event Photo:</label>
             <input
               type="file"
-              id="image"
-              name="image"
+              id="photo"
+              name="photo"
               accept="image/*"
               onChange={handleImageChange}
-              required={!eventToUpdate}
+              required={!eventToUpdate || !newEvent.Photo}
             />
+            {newEvent.Photo && (
+              <img src={newEvent.Photo} alt="Preview" className="image-preview" />
+            )}
           </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           <div className="button-container">
