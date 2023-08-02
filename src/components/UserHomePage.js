@@ -18,14 +18,15 @@ const UserHomepage = () => {
   const [organizersStartIndex, setOrganizersStartIndex] = useState(0);
   const [isOrganizersBackArrowDisabled, setIsOrganizersBackArrowDisabled] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [savedStartIndex, setSavedStartIndex] = useState(0);
   
   
   let navigate = useNavigate();
 
-  const handleNextPage = () => {
-    setStartIndex(prevStartIndex => (prevStartIndex + eventsPerPage) % allEvents.length);
-    setIsBackArrowDisabled(false); // Enable the back arrow button after going to the next page
-  };
+  // const handleNextPage = () => {
+  //   setStartIndex(prevStartIndex => (prevStartIndex + eventsPerPage) % allEvents.length);
+  //   setIsBackArrowDisabled(false); // Enable the back arrow button after going to the next page
+  // };
 
   const handlePrevPage = () => {
     setStartIndex(prevStartIndex =>
@@ -239,29 +240,32 @@ const UserHomepage = () => {
   };
 
   
-
-  const handleToggleFavorite = (eventId) => {
-    const eventToUpdate = allEvents.find((event) => event.id === eventId);
-    if (eventToUpdate) {
-      if (eventToUpdate.favorite) {
-        setFavoriteEvents((prevFavoriteEvents) =>
-          prevFavoriteEvents.filter((event) => event.id !== eventId)
-        );
-      } else {
-        setFavoriteEvents((prevFavoriteEvents) => [
-          ...prevFavoriteEvents,
-          eventToUpdate,
-        ]);
-      }
-      setAllEvents((prevAllEvents) =>
-        prevAllEvents.map((event) =>
-          event.id === eventId
-            ? { ...event, favorite: !event.favorite }
-            : event
-        )
-      );
-    }
+  const handleToggleFavorite = (event, eventId) => {
+    event.stopPropagation();
+  
+    setAllEvents(prevEvents => {
+      const updatedEvents = prevEvents.map((event) => {
+        if (event.id === eventId) {
+          return { ...event, favorite: !event.favorite };
+        } else {
+          return event;
+        }
+      });
+  
+      // Determine which events are favorites
+      const updatedFavoriteEvents = updatedEvents.filter(event => event.favorite);
+      
+      // Update the favoriteEvents state with the new list of favorite events
+      setFavoriteEvents(updatedFavoriteEvents);
+  
+      // Return the updated events list to update the allEvents state
+      return updatedEvents;
+    });
   };
+  
+  
+  
+  
 
   return (
     <div className="user-homepage">
@@ -307,64 +311,67 @@ const UserHomepage = () => {
               .slice(startIndex, startIndex + eventsPerPage)
               .map((event) => (
                 <div key={event.id} className="event-card" onClick={() => handleEventClick(event)}>
-                  <img src={event.image} alt={event.title} className="event-image" />
-                  <div className="event-details">
-                    <h3>{event.title}</h3>
-                    <p>Date: {event.date}</p>
-                    <button
-                      className={`favorite-button ${
-                        favoriteEvents.some((favEvent) => favEvent.id === event.id)
-                          ? 'favorite'
-                          : ''
-                      }`}
-                      onClick={() => handleToggleFavorite(event.id)}
-                    >
-                      <FontAwesomeIcon icon={faHeart} />
-                    </button>
-                  </div>
-                </div>
+  <img src={event.image} alt={event.title} className="event-image" />
+  <div className="event-details">
+    <h3>{event.title}</h3>
+    <p>Date: {event.date}</p>
+    <button
+  className={`favorite-button ${
+    favoriteEvents.some((favEvent) => favEvent.id === event.id)
+      ? 'favorite'
+      : ''
+  }`}
+  onClick={(e) => handleToggleFavorite(e, event.id)}
+>
+  <FontAwesomeIcon icon={faHeart} />
+</button>
+
+  </div>
+</div>
+
               ))}
-          <button className='button_style' onClick={handleNextPage} disabled={startIndex + eventsPerPage >= allEvents.length}>
-          <FontAwesomeIcon icon={faChevronRight} />
-          </button>
+          <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev - eventsPerPage + favoriteEvents.length) % favoriteEvents.length)} disabled={savedStartIndex === 0}>
+  <FontAwesomeIcon icon={faChevronLeft} />
+</button>
           </div>
         </div>
       )}
     </div>
     <h2>Saved Events</h2>
-    <div className="favorite-events">
-    {favoriteEvents.length > 0 ? (
-      <div className="event-navigation">
-        <div className="event-cards-container">
-        <button className = "button_style" onClick={handlePrevPage} disabled={isBackArrowDisabled}>
-        <FontAwesomeIcon icon={faChevronLeft} />
+<div className="favorite-events">
+  {favoriteEvents.length > 0 ? (
+    <div className="event-navigation">
+      <div className="event-cards-container">
+        <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev - eventsPerPage + favoriteEvents.length) % favoriteEvents.length)} disabled={savedStartIndex === 0}>
+          <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-          {favoriteEvents
-            .slice(startIndex, startIndex + eventsPerPage)
-            .map((event) => (
-              <div key={event.id} className="event-card">
-                <img src={event.image} alt={event.title} className="event-image" />
-                <div className="event-details">
-                  <h3>{event.title}</h3>
-                  <p>Date: {event.date}</p>
-                  <button
-                    className={`favorite-button favorite`}
-                    onClick={() => handleToggleFavorite(event.id)}
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </button>
-                </div>
+        {favoriteEvents
+          .slice(savedStartIndex, savedStartIndex + eventsPerPage)
+          .map((event) => (
+            <div key={event.id} className="event-card">
+              <img src={event.image} alt={event.title} className="event-image" />
+              <div className="event-details">
+                <h3>{event.title}</h3>
+                <p>Date: {event.date}</p>
+                <button
+                  className={`favorite-button favorite`}
+                  onClick={(e) => handleToggleFavorite(e, event.id)}
+                >
+                  <FontAwesomeIcon icon={faHeart} />
+                </button>
               </div>
-            ))}
-            <button className='button_style' onClick={handleNextPage} disabled={startIndex + eventsPerPage >= favoriteEvents.length}>
-            <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-        </div>
+            </div>
+          ))}
+        <button className='button_style' onClick={() => setSavedStartIndex(prev => (prev + eventsPerPage) % favoriteEvents.length)} disabled={savedStartIndex + eventsPerPage >= favoriteEvents.length}>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
       </div>
-      ) : (
-        <p className="no-events-message">No saved events!!</p>
-      )}
     </div>
+  ) : (
+    <p className="no-events-message">No saved events!!</p>
+  )}
+</div>
+
     <h2>Organizers to Follow</h2>
 <div className="organizers-to-follow">
   {organizers.length > 0 && (
