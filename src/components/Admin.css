@@ -249,6 +249,27 @@
      /* Maintain aspect ratio */
   }
 
+  .organizer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    /* This will create as many 200px columns as will fit in the container, and each column will take up an equal amount of space */
+    grid-gap: 20px;
+}
+
+  .organizer_followed img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .organizer_followed {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    width: 200px;
+    margin-left: 16px;
+    border-radius: 12px;
+  }
+
 
   
 

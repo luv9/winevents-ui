@@ -13,6 +13,9 @@ const AdminPage = () => {
   const [showAddEventForm, setShowAddEventForm] = useState(false);
   const [eventToUpdate, setEventToUpdate] = useState(null);
   const token = localStorage.getItem('token');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -33,6 +36,10 @@ const AdminPage = () => {
 
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
+  };
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleSearch = () => {
@@ -105,6 +112,11 @@ const AdminPage = () => {
   const goToPage = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage((prevPage) => prevPage + 1);
   const prevPage = () => setCurrentPage((prevPage) => prevPage - 1);
+  const handleLogout = () => {
+    console.log('Logging out...');
+    // add your logout logic here
+    navigate('/user-signin');
+  };
 
   return (
     <div className="admin-page">
@@ -116,8 +128,13 @@ const AdminPage = () => {
           <button className="btn search-button" onClick={handleSearch}>
             <FontAwesomeIcon icon={faSearch} className="search-icon" />
           </button>
-          <div className="human-icon">
+          <div className="human-icon" onClick={handleMenuClick}>
             <FontAwesomeIcon icon={faUser} />
+            {isMenuOpen && (
+              <div className="menu">
+                <button className="menu-item" onClick={handleLogout}>Logout</button>
+              </div>
+            )}
           </div>
         </div>
       </div>

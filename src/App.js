@@ -8,6 +8,8 @@ import AdminHomepage from './components/adminhomepage';
 import UserLogin from './components/UserLogin';
 import UserSignUp from './components/UserSignUp';
 import UserHomepage from './components/UserHomePage';
+import FavoriteOrganizers from './components/FavoriteOrganizers';
+import AccountSettings from './components/AccountSettings';
 
 function App() {
   return (
@@ -21,7 +23,8 @@ function App() {
           <Route path="/user-signin" element={<UserLoginWrapper />} />
           <Route path="/user-signup" element={<UserSignUpWrapper />} />
           <Route path="/user-homepage" element={<UserHomepage />} />
-          <Route path="/user-signin" element={<UserLogin />} />
+          <Route path="/favorite-organizers" element={<FavoriteOrganizers />} />
+          <Route path="/account-settings" element={<AccountSettings />} />
         </Routes>
       </div>
     </Router>

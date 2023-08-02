@@ -19,6 +19,7 @@ const UserHomepage = () => {
   const [isOrganizersBackArrowDisabled, setIsOrganizersBackArrowDisabled] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
+  
   let navigate = useNavigate();
 
   const handleNextPage = () => {
@@ -68,9 +69,12 @@ const UserHomepage = () => {
     navigate('/user-signin');
   };
 
+  const handleAccountSettings = () => {
+    navigate('/account-settings');
+  }
+
   const handleFavoriteOrganizers = () => {
-    console.log('Showing favorite organizers...');
-    // add your favorite organizers logic here
+    navigate('/favorite-organizers', { state: { favoriteOrganizers: organizers.filter(organizer => organizer.followed) } });
   };
 
   useEffect(() => {
@@ -98,43 +102,47 @@ const UserHomepage = () => {
     const staticEvents = [
       {
         id: 1,
-        title: 'Event 1',
+        title: 'Sight Seeing',
         date: 'August 15, 2023',
         image: 'https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg',
         favorite: false,
         location: '300 Oulette',
         time: '3:15pm',
-        url: 'https://motorolasolutions.wd5.myworkdayjobs.com/en-US/Careers/login?redirect=%2Fen-US%2FCareers%2FuserHome'
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
+        url: 'https://www.visitwindsoressex.com/event/family-sightseeing-and-sunset-cruises/'
         
       },
       {
         id: 2,
-        title: 'Event 2',
+        title: 'Music Concert',
         date: 'September 5, 2023',
-        image: 'https://example.com/event2-image.jpg',
+        image: 'https://media.istockphoto.com/id/974238866/photo/audience-listens-to-the-lecturer-at-the-conference.jpg?s=612x612&w=0&k=20&c=p_BQCJWRQQtZYnQlOtZMzTjeB_csic8OofTCAKLwT0M=',
         favorite: true,
         location: '300 Oulette',
         time: '3:15pm',
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
         url: 'https://www.eventbrite.com/',
       },
       {
         id: 3,
-        title: 'Event 3',
+        title: 'TedTalk',
         date: 'October 20, 2023',
-        image: 'https://example.com/event3-image.jpg',
+        image: 'https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=',
         favorite: false,
         location: '300 Oulette',
         time: '3:15pm',
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
         url: 'https://www.eventbrite.com/',
       },
       {
         id: 4,
-        title: 'Event 4s',
+        title: 'Halloween Party',
         date: 'August 15, 2023',
-        image: 'https://example.com/event1-image.jpg',
+        image: 'https://learnenglishteens.britishcouncil.org/sites/teens/files/field/image/rs9094_gettyimages-1254722164-hig.jpg',
         favorite: false,
         location: '300 Oulette',
         time: '3:15pm',
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
         url: 'https://www.eventbrite.com/',
       },
       {
@@ -145,6 +153,7 @@ const UserHomepage = () => {
         favorite: true,
         location: '300 Oulette',
         time: '3:15pm',
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
         url: 'https://www.eventbrite.com/',
       },
       {
@@ -155,6 +164,7 @@ const UserHomepage = () => {
         favorite: false,
         location: '300 Oulette',
         time: '3:15pm',
+        description: "Join us for a captivating sightseeing tour! We'll discover breathtaking views, historical sites, and local hotspots.",
         url: 'https://www.eventbrite.com/',
       },
       // Add more static events as needed
@@ -164,51 +174,51 @@ const UserHomepage = () => {
     const staticOrganizers = [
       {
         id: 1,
-        name: 'Organizer 1',
+        name: 'MAC SOCIETY',
         followed: false,
-        image: 'https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg',
+        image: 'https://img.freepik.com/free-vector/modern-desktop-compute-concept-illustration_114360-12156.jpg',
       },
       {
         id: 2,
-        name: 'Organizer 2',
+        name: 'ECO SOCIETY',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://static.vecteezy.com/system/resources/thumbnails/001/995/586/small/hand-holding-a-tree-on-blurred-green-nature-background-planting-ideas-and-earth-day-free-photo.jpg',
       },
       {
         id: 3,
-        name: 'Organizer 3',
+        name: 'MENG SOCIETY',
         followed: true,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://static1.squarespace.com/static/5d050cb57d55b300017168e3/t/5f51b716a5a0a53099009546/1690244595550/',
       },
       {
         id: 4,
-        name: 'Organizer 4',
+        name: 'SOCCER CLUB',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'data:image/png;base64,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',
       },
       {
         id: 5,
-        name: 'Organizer 4',
+        name: 'DRAMA CLUB',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://static1.squarespace.com/static/60bd67b9fd914d6f8695467f/t/60c8e0ea50803c408b7141dc/1658267924639/',
       },
       {
         id: 6,
-        name: 'Organizer 4',
+        name: 'MUSIC CLUB',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://cdn.xxl.thumbs.canstockphoto.com/dj-music-coloured-illustration-drawing_csp0530484.jpg',
       },
       {
         id: 7,
-        name: 'Organizer 4',
+        name: 'SWIMMING CLUB',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://static.vecteezy.com/system/resources/previews/007/955/138/original/swimming-logo-free-vector.jpg',
       },
       {
         id: 8,
-        name: 'Organizer 4',
+        name: 'SALSA CLUB',
         followed: false,
-        image: 'https://example.com/organizer1-image.jpg',
+        image: 'https://img.freepik.com/free-vector/hand-drawn-flat-design-salsa-logo-badge_23-2149247706.jpg?w=2000',
       },
       
       // Add more static organizers as needed
@@ -227,6 +237,8 @@ const UserHomepage = () => {
     );
     setAllEvents(filteredEvents);
   };
+
+  
 
   const handleToggleFavorite = (eventId) => {
     const eventToUpdate = allEvents.find((event) => event.id === eventId);
@@ -272,6 +284,7 @@ const UserHomepage = () => {
             {isMenuOpen && (
               <div className="menu">
                 <button className="menu-item" onClick={handleFavoriteOrganizers}>Favorite Organizers</button>
+                <button className="menu-item" onClick={handleAccountSettings}>Account Settings</button>
                 <button className="menu-item" onClick={handleLogout}>Logout</button>
               </div>
             )}
@@ -397,6 +410,7 @@ const UserHomepage = () => {
       <p>Date: {selectedEvent.date}</p>
       <p>Location: {selectedEvent.location}</p>
       <p>Time: {selectedEvent.time}</p>
+      <p>Description: {selectedEvent.description}</p>
       <p>Link:</p>
       <p><a href={selectedEvent.url}>{selectedEvent.url}</a></p>
       <button onClick={() => setSelectedEvent(null)}>Close</button>
